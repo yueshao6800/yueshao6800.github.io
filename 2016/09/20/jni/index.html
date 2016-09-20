@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<!--[if lte IE 8 ]>
+<html class="ie" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
+<![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<!--
+***************  *      *     *
+      8          *    *       *
+      8          *  *         *
+      8          **           *
+      8          *  *         *
+      8          *    *       *
+      8          *      *     *
+      8          *        *   ***********    -----Theme By Kieran(http://go.kieran.top)
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
+<!--<![endif]-->
+
+<head>
+  <title>jni简介及openSSL静态动态编译 | zty</title>
+  <!-- Meta data -->
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content="zty">
+    <meta name="author" content="zty">
+    <meta name="description" content="just do it" />
+    <meta name="keywords" content="" />
+
+    <!-- Favicon, (keep icon in root folder) -->
+    <link rel="Shortcut Icon" href="/img/favicon.ico" type="image/ico">
+
+    <link rel="alternate" href="/atom.xml" title="zty" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/all.css" media="screen" type="text/css">
+	
+    <link rel="stylesheet" href="/highlightjs/vs.css" type="text/css">
+    
+    
+
+    <!-- Custom stylesheet, (add custom styles here, always load last) -->
+    <!-- Load our stylesheet for IE8 -->
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="/css/ie8.css" />
+    <![endif]-->
+
+    <!-- Google Webfonts (Monserrat 400/700, Open Sans 400/600) -->
+    <link href='//fonts.useso.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.useso.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+
+    <!-- Load our fonts individually if IE8+, to avoid faux bold & italic rendering -->
+    <!--[if IE]>
+    <link href='http://fonts.useso.com/css?family=Montserrat:400' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.useso.com/css?family=Montserrat:700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.useso.com/css?family=Open+Sans:400' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.useso.com/css?family=Open+Sans:600' rel='stylesheet' type='text/css'>
+    <![endif]-->
+
+    <!-- jQuery | Load our jQuery, with an alternative source fallback to a local version if request is unavailable -->
+    <script src="/js/jquery-1.11.1.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery-1.11.1.min.js"><\/script>')</script>
+
+    <!-- Load these in the <head> for quicker IE8+ load times -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="/js/html5shiv.min.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+
+  
+  <style>.col-md-8.col-md-offset-2.opening-statement img{display:none;}</style>
+</head>
+
+<!--
+<body class="post-template">
+-->
+<body id="index" class="lightnav animsition">
+
+      <!-- ============================ Off-canvas navigation =========================== -->
+
+    <div class="sb-slidebar sb-right sb-style-overlay sb-momentum-scrolling">
+        <div class="sb-close" aria-label="Close Menu" aria-hidden="true">
+            <img src="/img/close.png" alt="Close"/>
+        </div>
+        <!-- Lists in Slidebars -->
+        <ul class="sb-menu">
+            <li><a href="/" class="animsition-link" title="Home">Home</a></li>
+            <li><a href="/archives" class="animsition-link" title="archive">archives</a></li>
+            <!-- Dropdown Menu -->
+			 
+            <li>
+                <a class="sb-toggle-submenu">Works<span class="sb-caret"></span></a>
+                <ul class="sb-submenu">
+                    
+                        <li><a href="/" target="_BLANK" class="animsition-link">AAA</a></li>
+                    
+                        <li><a href="/atom.xml" target="_BLANK" class="animsition-link">BBB</a></li>
+                    
+                </ul>
+            </li>
+            
+            
+            
+            <li>
+                <a class="sb-toggle-submenu">Links<span class="sb-caret"></span></a>
+                <ul class="sb-submenu">
+                    
+                    <li><a href="https://github.com/Tianyu2011" class="animsition-link">zty</a></li>
+                    
+                    <li><a href="https://github.com/Tianyu2011" class="animsition-link">zty</a></li>
+                    
+                </ul>
+            </li>
+            
+        </ul>
+        <!-- Lists in Slidebars -->
+        <ul class="sb-menu secondary">
+            <li><a href="/about.html" class="animsition-link" title="about">About</a></li>
+            <li><a href="/atom.xml" class="animsition-link" title="rss">RSS</a></li>
+        </ul>
+    </div>
+    
+    <!-- ============================ END Off-canvas navigation =========================== -->
+
+    <!-- ============================ #sb-site Main Page Wrapper =========================== -->
+
+    <div id="sb-site">
+        <!-- #sb-site - All page content should be contained within this id, except the off-canvas navigation itself -->
+
+        <!-- ============================ Header & Logo bar =========================== -->
+
+        <div id="navigation" class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <!-- Nav logo -->
+                    <div class="logo">
+                        <a href="/" title="Logo" class="animsition-link">
+                         <img src="/img/logo.png" alt="Logo" width="35px;"/> 
+                        </a>
+                    </div>
+                    <!-- // Nav logo -->
+                    <!-- Info-bar -->
+                    <nav>
+                        <ul class="nav">
+                            <li><a href="/" class="animsition-link">zty</a></li>
+                            <li class="nolink"><span>Always </span>Creative.</li>
+                            
+                            <li><a href="https://github.com/" title="Github" target="_blank"><i class="icon-github"></i></a></li>
+                            
+                            
+                            <li><a href="https://twitter.com/" title="Twitter" target="_blank"><i class="icon-twitter"></i></a></li>
+                            
+                            
+                            <li><a href="https://www.facebook.com/" title="Facebook" target="_blank"><i class="icon-facebook"></i></a></li>
+                            
+                            
+                            <li><a href="https://google.com/" title="Google-Plus" target="_blank"><i class="icon-google-plus"></i></a></li>
+                            
+                            
+                            <li><a href="http://weibo.com/" title="Sina-Weibo" target="_blank"><i class="icon-sina-weibo"></i></a></li>
+                            
+                            <li class="nolink"><span>Welcome!</span></li>
+                        </ul>
+                    </nav>
+                    <!--// Info-bar -->
+                </div>
+                <!-- // .container -->
+                <div class="learnmore sb-toggle-right">More</div>
+                <button type="button" class="navbar-toggle menu-icon sb-toggle-right" title="More">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar before"></span>
+                <span class="icon-bar main"></span>
+                <span class="icon-bar after"></span>
+                </button>
+            </div>
+            <!-- // .navbar-inner -->
+        </div>
+
+        <!-- ============================ Header & Logo bar =========================== -->
+
+
+      
+<section id="intro">
+    <div class="container">
+        <div class="row col-md-offset-2">
+            <div class="col-md-8">
+    			<span class="post-meta">
+      <time datetime="2016-09-20T09:31:44.663Z" itemprop="datePublished">
+          2016-09-20
+      </time>
+    
+</span>
+                <h1>jni简介及openSSL静态动态编译</h1>
+            </div>
+        </div>
+        <div class="col-md-8 col-md-offset-2">
+      		<h3 id="jni的定义"><a href="#jni的定义" class="headerlink" title="jni的定义"></a>jni的定义</h3><p>即java native interface,提供了若干api实现了java和其他语言的通信（c &amp; c++）。</p>
+<h3 id="jni的优点及缺点"><a href="#jni的优点及缺点" class="headerlink" title="jni的优点及缺点"></a>jni的优点及缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>可以使用标准java api不能提供的功能，比如DICOM（医学数字成像和通信）。</li>
+<li>保护核心代码，c/c++的库反汇的难度较大，可以将加密key，或者重要的字符串信息之类的。</li>
+<li>便于移植，用c/c++写的库文件可以方便的在嵌入式平台上再次使用。类似与cocos2d-x，只需要编写一次代码，经过不同开发平台编译之后可以在android，ios，pc上面运行。</li>
+</ul>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>一旦使用jni，程序不再垮平台，需要在不同的系统环境下重新编译（arm,arm64,x86，mips等不同cpu架构都需要重新编译）</li>
+<li>程序不再是绝对安全的，本地代码的不当使用可能导致整个程序崩溃。一个通用规则是，应该让本地方法集中在少数几个类中。这样就降低了java和c之间的耦合性。</li>
+</ul>
+<h3 id="ndk"><a href="#ndk" class="headerlink" title="ndk"></a>ndk</h3><p>native development kit,是一系列工具的集合，帮助开发者快速开发C(c++)的动态库，并能自动将so和java应用一起打包成apk。NDK集成了交叉编译器，并提供了相应的mk文件隔离CPU、平台、ABI等差异，开发人员只需要简单修改mk文件，就可以创建出so。</p>
+<p>C标准库（libc）、标准数学库（libm）、压缩库（libz）、Log库（liblog）</p>
+<p>cpu7种架构：armeabi，armeabi-v7a，x86，mips，arm64- v8a，mips64，x86_64</p>
+<pre><code>android不同版本相关：
+5.0中ndk支持64位
+6.0中需要静态编译openssl库（正在讲OpenSSL替换为BoringSSL）
+7.0中直接不允许调用非公有的api
+</code></pre><h2 id="ndk环境配置及openssl静态编译及动态编译介绍"><a href="#ndk环境配置及openssl静态编译及动态编译介绍" class="headerlink" title="ndk环境配置及openssl静态编译及动态编译介绍"></a>ndk环境配置及openssl静态编译及动态编译介绍</h2><h3 id="下载ndk（android-ndk-r10）-并配置ndk的环境变量。"><a href="#下载ndk（android-ndk-r10）-并配置ndk的环境变量。" class="headerlink" title="下载ndk（android-ndk-r10）,并配置ndk的环境变量。"></a>下载ndk（android-ndk-r10）,并配置ndk的环境变量。</h3><pre><code>windows环境下配置ndk变量与配置java和android环境变量相同。
+动态编译直接通过cmd命令行执行ndk-build来运行。
+静态编译通过windows编译的话经常报一些包找不到等错误。
+</code></pre><h3 id="下载cygwin-模拟Linux环境，其实开发ndk只需要上面的ndk环境即可正常开发，需要cugwin的原因是ndk在windows环境上面经常出问题，交叉编译各种bug）。"><a href="#下载cygwin-模拟Linux环境，其实开发ndk只需要上面的ndk环境即可正常开发，需要cugwin的原因是ndk在windows环境上面经常出问题，交叉编译各种bug）。" class="headerlink" title="下载cygwin(模拟Linux环境，其实开发ndk只需要上面的ndk环境即可正常开发，需要cugwin的原因是ndk在windows环境上面经常出问题，交叉编译各种bug）。"></a>下载cygwin(模拟Linux环境，其实开发ndk只需要上面的ndk环境即可正常开发，需要cugwin的原因是ndk在windows环境上面经常出问题，交叉编译各种bug）。</h3><pre><code>配置cygwin的注意事项：
+  1.安装的时候记得勾选shell 和devel
+  2.配置环境变量：
+    2.1 配置cugwin中的ndk环境变量(不用配置也行)： 
+      在etc目录下的profile下配置如下：
+      PATH=&quot;/usr/local/bin:/usr/bin:${PATH}/cygdrive/d/android-ndk-r11c:${PATH}&quot;
+    2.2 配置ndk-build的指令：
+      在home中的user（根据电脑用户名不一样而改变）下的.bash_profile中配置如下：
+      export NDK_BUILD=/cygdrive/d/android-ndk-r10/ndk-build（要注意等号左右不能带空格）
+</code></pre><h3 id="openssl的动态编译库的编译-需要so-："><a href="#openssl的动态编译库的编译-需要so-：" class="headerlink" title="openssl的动态编译库的编译(需要so)："></a>openssl的动态编译库的编译(需要so)：</h3><p>编译所需要的so文件：</p>
+<p>第一种方法(自己编译)：</p>
+<ul>
+<li>下载github上面的官方的开源项目<a href="https://github.com/openssl/openssl" target="_blank" rel="external">openssl</a></li>
+<li>配置android脚本，<a href="https://wiki.openssl.org/images/7/70/Setenv-android.sh" target="_blank" rel="external">脚本地址</a></li>
+<li><a href="https://segmentfault.com/a/1190000005747285" target="_blank" rel="external">具体配置方法</a></li>
+<li><a href="https://wiki.openssl.org/index.php/Android" target="_blank" rel="external">openssl官方英文说明</a></li>
+</ul>
+<pre><code>注意：cygwin用此种方法编译的话，则需要在安装的时候配置wget,make(Devel目录下)等一系列命令。
+如果不想重新安装cygwin则可以利用apt-cyg命令(http://blog.csdn.net/forlong401/article/details/8517711).
+</code></pre><p>第二种方法：</p>
+<p>直接下载<a href="https://github.com/Tianyu2011/openssl_lib_android" target="_blank" rel="external">包含5个平台的动态库，不包含.a文件</a></p>
+<p>动态编译的步骤(eclipse)：</p>
+<ul>
+<li>在eclipse上面建立一个新的项目。或者在原有项目中也可。</li>
+<li>将自己写的.c和.h以及android.mk,Application.mk放入jni目录中</li>
+<li>得到so文件之后，将其放入ndk中对应的android版本平台里面(eg: android-ndk-r10/platforms/android-19)中，并根据不同平台将libcrypto和libssl的so分别放入到对应的lib中。</li>
+<li>将openssl的头文件放入项目中，具体的放置的路径可以配置（openssl项目中有include目录下）</li>
+<li>配置android.mk，Application.mk文件</li>
+<li>cd 到工程目录</li>
+<li>执行ndk-build命令(如果在cygwin中执行配置了命令，则根据自己配置的命令执行，如$NDK_BUILD)</li>
+<li>得到动态编译的so文件。</li>
+</ul>
+<pre><code>注意事项：
+写的.c文件中的包名要跟自己调用的方法的包名一样。
+</code></pre><p>eg: 假设我要编译一个用openssl的so，so的名称为zty<br>则android.mk配置可以写成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">#即jni目录下面一层的路径</div><div class="line">LOCAL_PATH := $(call my-dir)</div><div class="line"></div><div class="line">include $(CLEAR_VARS)</div><div class="line">LOCAL_MODULE    := zty</div><div class="line"></div><div class="line">#openssl的头文件放置的目录</div><div class="line">LOCAL_C_INCLUDES := $(LOCAL_PATH)/../openssl/include</div><div class="line"></div><div class="line">#log包</div><div class="line">LOCAL_LDLIBS += -lcrypto -lssl -llog</div><div class="line"></div><div class="line">LOCAL_SRC_FILES += encryptkey.c base64.c</div><div class="line"></div><div class="line">include $(BUILD_SHARED_LIBRARY)</div></pre></td></tr></table></figure>
+<p>Application.mk配置主要写编译平台和版本，但是基本不用写版本，只需要写平台即可.</p>
+<p>eg: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">APP_ABI := armeabi armeabi-v7a x86 mips</div></pre></td></tr></table></figure>
+<p>APP_ABI := alll 表示所有平台都支持</p>
+<h3 id="openssl静态编译则需要（libcrypto-a-libssl-a）："><a href="#openssl静态编译则需要（libcrypto-a-libssl-a）：" class="headerlink" title="openssl静态编译则需要（libcrypto.a,libssl.a）："></a>openssl静态编译则需要（libcrypto.a,libssl.a）：</h3><p>android6.0之后必须要静态编译openssl库，不然会crash。</p>
+<p>编译静态编译需要的.a文件：</p>
+<p>第一种方法（自己编译）：</p>
+<ul>
+<li>配置android脚本步骤同动态编译</li>
+<li>可以利用github上面有的项目<a href="https://github.com/aluvalasuman/OpenSSL1.0.1cForAndroid" target="_blank" rel="external">OpenSSL1.0.1cForAndroid</a></li>
+<li><p>修改crypto文件夹下的Android.mk文件, 在#target对应的include修改</p>
+<figure class="highlight plain"><figcaption><span>$(BUILD_STATIC_LIBRARY)```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">* 修改ssl文件夹下的Android.mk文件,在#target对应的include修改</div><div class="line">```include$(BUILD_SHARED_LIBRARY)-------&gt;include $(BUILD_STATIC_LIBRARY)</div></pre></td></tr></table></figure>
+</li>
+<li><p>修改apps文件夹下的Android.mk文件，添加 LOCAL_LDLIBS += -lz</p>
+</li>
+<li>cd 到工程目录</li>
+<li>执行命令ndk-build(同样是在application中配置平台)</li>
+<li>在工程目录的obj文件夹下可以找到 libcrypto.a,libssl.a</li>
+</ul>
+<p>第二种方法(直接下载)：</p>
+<p><a href="https://github.com/Tianyu2011/openssl_for_ios_and_android" target="_blank" rel="external">这里只有4个平台的.a文件以及openssl的头文件声明</a></p>
+<p>静态编译的步骤(eclipse)：</p>
+<ul>
+<li>在eclipse上面建立一个新的项目。或者在原有项目中也可。</li>
+<li>将自己写的.c和.h以及android.mk,Application.mk放入jni目录中</li>
+<li>将得到的.a文件按平台目录不同分别放在自己项目的jni目录下。</li>
+<li>将openssl的头文件放入项目中，具体的放置的路径可以配置（openssl项目中有include目录下）</li>
+<li>配置android.mk，Application.mk文件</li>
+<li>cd 到工程目录</li>
+<li>执行ndk-build命令(如果在cygwin中执行配置了命令，则根据自己配置的命令执行，如$NDK_BUILD)</li>
+<li>得到静态编译的so文件。</li>
+</ul>
+<p>eg: 假设我要编译一个用openssl的so，so的名称为zty<br>则android.mk配置可以写成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">LOCAL_PATH := $(call my-dir)</div><div class="line"></div><div class="line">include $(CLEAR_VARS)</div><div class="line">LOCAL_MODULE := libcrypto     </div><div class="line">LOCAL_SRC_FILES := libcrypto.a</div><div class="line">include $(PREBUILT_STATIC_LIBRARY)</div><div class="line"></div><div class="line">include $(CLEAR_VARS)</div><div class="line">LOCAL_MODULE := libssl      </div><div class="line">LOCAL_SRC_FILES := libssl.a</div><div class="line">include $(PREBUILT_STATIC_LIBRARY)</div><div class="line"></div><div class="line">include $(CLEAR_VARS)</div><div class="line">LOCAL_MODULE    := zty</div><div class="line">LOCAL_C_INCLUDES := $(LOCAL_PATH)/../openssl/include</div><div class="line"></div><div class="line">#调用静态库</div><div class="line">LOCAL_STATIC_LIBRARIES += libcrypto libssl</div><div class="line"></div><div class="line">LOCAL_LDLIBS += -llog</div><div class="line"></div><div class="line">LOCAL_SRC_FILES += encryptkey.c base64.c</div><div class="line"></div><div class="line">include $(BUILD_SHARED_LIBRARY)</div></pre></td></tr></table></figure>
+
+            <div class="clearfix"></div>
+            <hr class="nogutter">
+        </div>
+        <nav class="pagination" role="pagination">
+    
+    
+</nav>
+
+        <div class="duoshuo">
+<div class="ds-thread" data-thread-key="2016/09/20/jni/" data-title="jni简介及openSSL静态动态编译" data-url="http://blog.csdn.net/zty7612956/2016/09/20/jni/"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"zty"};
+(function() {
+	var ds = document.createElement('script');
+	ds.type = 'text/javascript';ds.async = true;
+	ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	ds.charset = 'UTF-8';
+	(document.getElementsByTagName('head')[0] 
+	 || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+</div>
+    </div>
+</section>
+
+
+      
+<!-- ============================ Footer =========================== -->
+
+<footer>
+    <div class="container">
+            <div class="copy">
+                <p>
+                    &copy; 2014<script>new Date().getFullYear()>2010&&document.write("-"+new Date().getFullYear());</script>, Content By zty. All Rights Reserved.
+                </p>
+                <p>create By <a href="//github.com/Tianyu2011" style="color: #767D84">Tianyu</a></p>
+            </div>
+            <div class="social">
+                <ul>
+                    
+                    <li><a href="https://github.com/" title="Github" target="_blank"><i class="icon-github"></i></a>&nbsp;</li>
+                    
+                    
+                    <li><a href="https://twitter.com/" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>&nbsp;</li>
+                    
+                    
+                    <li><a href="https://www.facebook.com/" title="Facebook" target="_blank"><i class="icon-facebook"></i></a>&nbsp;</li>
+                    
+                    
+                    <li><a href="https://google.com/" title="Google-Plus" target="_blank"><i class="icon-google-plus"></i></a>&nbsp;</li>
+                    
+                    
+                    <li><a href="http://weibo.com/" title="Sina-Weibo" target="_blank"><i class="icon-sina-weibo"></i></a>&nbsp;</li>
+                    
+                </ul>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+</footer>
+
+<!-- ============================ END Footer =========================== -->
+      <!-- Load our scripts -->
+        
+<!-- Resizable 'on-demand' full-height hero -->
+<script type="text/javascript">
+    
+    var resizeHero = function () {
+        var hero = $(".cover,.heightblock"),
+            window1 = $(window);
+        hero.css({
+            "height": window1.height()
+        });
+    };
+    
+    resizeHero();
+    
+    $(window).resize(function () {
+        resizeHero();
+    });
+</script>
+<script src="/js/plugins.min.js"></script><!-- Bootstrap core and concatenated plugins always load here -->
+<script src="/js/jquery.flexslider-min.js"></script><!-- Flexslider plugin -->
+<script src="/js/scripts.js"></script><!-- Theme scripts -->
+
+<!-- Initiate flexslider plugin -->
+<script type="text/javascript">
+    $(document).ready(function($) {
+      $('.flexslider').flexslider({
+        animation: "fade",
+        prevText: "",
+        nextText: "",
+        directionNav: true
+      });
+    });
+</script>
+
+</body>
+</html>
